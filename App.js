@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Text, View, StyleSheet} from 'react-native';
+import {Text, View, StyleSheet, Sc} from 'react-native';
 import utilities from './tailwind.json';
 import Header from './src/Header';
 import Generator from './src/Generator';
@@ -15,6 +15,11 @@ export default function App() {
     setRandom([...random, randomNum]);
   };
 
+  const handleDelete = position => {
+    const newNum = random.filter((item, index) => index !== position);
+    setRandom(newNum);
+  };
+
   return (
     <View style={styles.mainView}>
       <Header appName={appName} />
@@ -24,7 +29,7 @@ export default function App() {
         </Text>
       </View>
       <Generator add={onAddRandomNum} />
-      <Numlist num={random} setRandom={setRandom} />
+      <Numlist num={random} handleDelete={handleDelete} />
     </View>
   );
 }

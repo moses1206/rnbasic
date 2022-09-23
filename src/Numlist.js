@@ -1,18 +1,14 @@
-import {StyleSheet, Text, View} from 'react-native';
+import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
 import React from 'react';
 
-const Numlist = ({num, setRandom}) => {
-  const handleDelete = idx => {
-    if (num.idx === idx) {
-      const newNum = num.filter(num.idx !== idx);
-      setRandom(newNum);
-    }
-  };
-
+const Numlist = ({num, handleDelete}) => {
   return num.map((item, idx) => (
-    <View key={idx} style={styles.numList}>
-      <Text onPress={handleDelete(idx)}>{item}</Text>
-    </View>
+    <TouchableOpacity
+      key={idx}
+      style={styles.numList}
+      onPress={() => handleDelete(idx)}>
+      <Text>{item}</Text>
+    </TouchableOpacity>
   ));
 };
 

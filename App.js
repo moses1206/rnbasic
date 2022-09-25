@@ -1,35 +1,53 @@
 import React, {useState} from 'react';
-import {Text, View, StyleSheet, Sc} from 'react-native';
+import {
+  Text,
+  View,
+  StyleSheet,
+  ScrollView,
+  Button,
+  TextInput,
+} from 'react-native';
 import utilities from './tailwind.json';
 import Header from './src/Header';
 import Generator from './src/Generator';
 import Numlist from './src/Numlist';
+import Input from './src/Input';
+import PickerModule from './src/PickerModule';
 
 export default function App() {
-  const [appName, setAppName] = useState('My first app');
-  const [random, setRandom] = useState([36, 999]);
-
-  const onAddRandomNum = () => {
-    //Math.floor ==> 소숫점 버림
-    const randomNum = Math.floor(Math.random() * 100 + 1);
-    setRandom([...random, randomNum]);
-  };
-
-  const handleDelete = position => {
-    const newNum = random.filter((item, index) => index !== position);
-    setRandom(newNum);
+  const [myTextInput, setMyTextInput] = useState('');
+  const [alphabet, setAlphabet] = useState(['a,b,c,d']);
+  const handleAddInput = event => {
+    setAlphabet([...alphabet, myTextInput]);
+    setMyTextInput('');
   };
 
   return (
     <View style={styles.mainView}>
-      <Header appName={appName} />
-      <View>
-        <Text onPress={() => alert('text touch event')} style={styles.mainText}>
-          Hello World
-        </Text>
+      <PickerModule />
+      <View style={{width: '80%'}}>
+        <TextInput
+          style={styles.input}
+          value={myTextInput}
+          onChangeText={setMyTextInput}
+          // 글자가 많아지면 개행해줌
+          multiline={true}
+          // 글자 숫자를 제한
+          maxLength={100}
+          // 첫번째 글자를 보통 대문자로 자동수정하는데 안되도록 설정
+          autoCapitalize={'none'}
+          // 인풋을 막음
+          editable={true}
+        />
+        <Button title="add Text Input" onPress={handleAddInput} />
       </View>
-      <Generator add={onAddRandomNum} />
-      <Numlist num={random} handleDelete={handleDelete} />
+      <ScrollView style={{width: '80%'}}>
+        {alphabet.map((item, index) => (
+          <Text key={index} style={styles.mainText}>
+            {item}
+          </Text>
+        ))}
+      </ScrollView>
     </View>
   );
 }
@@ -40,6 +58,8 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: 'normal',
     padding: 20,
+    margin: 20,
+    backgroundColor: 'pink',
   },
   mainView: {
     flex: 1,
@@ -58,5 +78,10 @@ const styles = StyleSheet.create({
     width: '100%',
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  input: {
+    width: '100%',
+    backgroundColor: '#cecece',
+    marginTop: 20,
   },
 });

@@ -6,6 +6,7 @@ import {
   ScrollView,
   Button,
   TextInput,
+  Image,
 } from 'react-native';
 import utilities from './tailwind.json';
 import Header from './src/Header';
@@ -13,6 +14,7 @@ import Generator from './src/Generator';
 import Numlist from './src/Numlist';
 import Input from './src/Input';
 import PickerModule from './src/PickerModule';
+import onePicture from './assets/images/1.jpg';
 
 export default function App() {
   const [myTextInput, setMyTextInput] = useState('');
@@ -24,30 +26,15 @@ export default function App() {
 
   return (
     <View style={styles.mainView}>
-      <PickerModule />
-      <View style={{width: '80%'}}>
-        <TextInput
-          style={styles.input}
-          value={myTextInput}
-          onChangeText={setMyTextInput}
-          // 글자가 많아지면 개행해줌
-          multiline={true}
-          // 글자 숫자를 제한
-          maxLength={100}
-          // 첫번째 글자를 보통 대문자로 자동수정하는데 안되도록 설정
-          autoCapitalize={'none'}
-          // 인풋을 막음
-          editable={true}
-        />
-        <Button title="add Text Input" onPress={handleAddInput} />
-      </View>
-      <ScrollView style={{width: '80%'}}>
-        {alphabet.map((item, index) => (
-          <Text key={index} style={styles.mainText}>
-            {item}
-          </Text>
-        ))}
-      </ScrollView>
+      {/* 주어진 공간 내에서 사진 전체를 보여주는 것 contain 속성 */}
+      {/* <Image source={onePicture} style={styles.image} resizeMode="contain" /> */}
+      <Image
+        resizeMode="cover"
+        style={styles.image}
+        source={{
+          uri: 'https://cdn.pixabay.com/photo/2017/07/19/15/23/pumpkin-2519423_960_720.jpg',
+        }}
+      />
     </View>
   );
 }
@@ -83,5 +70,10 @@ const styles = StyleSheet.create({
     width: '100%',
     backgroundColor: '#cecece',
     marginTop: 20,
+  },
+  image: {
+    width: '100%',
+    height: '100%',
+    backgroundColor: 'yellow',
   },
 });
